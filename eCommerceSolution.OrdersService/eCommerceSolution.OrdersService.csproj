@@ -20,7 +20,6 @@
     <Folder Include="Models\DTOs\" />
     <Folder Include="Handlers\" />
     <Folder Include="Middlewares\" />
-    <Folder Include="Models\Entities\" />
   </ItemGroup>
 
 </Project>
