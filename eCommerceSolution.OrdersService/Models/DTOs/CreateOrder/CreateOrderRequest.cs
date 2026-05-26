@@ -1,7 +1,7 @@
 ﻿using eCommerceSolution.OrdersService.Models.Entities;
 using MediatR;
 
-namespace eCommerceSolution.OrdersService.Models.DTOs;
+namespace eCommerceSolution.OrdersService.Models.DTOs.CreateOrder;
 
 public class CreateOrderRequest : IRequest<CreateOrderResponse>
 {

@@ -1,4 +1,4 @@
-﻿namespace eCommerceSolution.OrdersService.Models.DTOs;
+﻿namespace eCommerceSolution.OrdersService.Models.DTOs.CreateOrder;
 
 public class CreateOrderResponse
 {

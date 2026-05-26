@@ -1,5 +1,5 @@
 ﻿using eCommerceSolution.OrdersService.Data;
-using eCommerceSolution.OrdersService.Models.DTOs;
+using eCommerceSolution.OrdersService.Models.DTOs.CreateOrder;
 using eCommerceSolution.OrdersService.Models.Entities;
 using MediatR;
 

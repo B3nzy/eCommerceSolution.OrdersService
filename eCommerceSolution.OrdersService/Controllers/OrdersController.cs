@@ -1,4 +1,5 @@
-﻿using eCommerceSolution.OrdersService.Models.DTOs;
+﻿using eCommerceSolution.OrdersService.Models.DTOs.CreateOrder;
+using eCommerceSolution.OrdersService.Models.DTOs.GetOrderById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,5 +65,28 @@ public class OrdersController : ControllerBase
 
     }
 
+
+    [HttpGet("search/{orderId}")]
+    public async Task<IActionResult> GetOrderById(string orderId)
+    {
+        var sw = Stopwatch.StartNew();
+        try
+        {
+            GetOrderByIdResponse response = await _mediator.Send(new GetOrderByIdRequest { OrderId = orderId });
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound($"Order with ID {orderId} not found.");
+            }
+        }
+        finally
+        {
+            sw.Stop();
+            _logger.LogInformation("[END] GetOrderById request processed in {ElapsedMilliseconds} ms", sw.ElapsedMilliseconds);
+        }
+    }
     #endregion
 }
