@@ -1,5 +1,7 @@
 ﻿using eCommerceSolution.OrdersService.Models.DTOs.CreateOrder;
+using eCommerceSolution.OrdersService.Models.DTOs.GetAllOrders;
 using eCommerceSolution.OrdersService.Models.DTOs.GetOrderById;
+using eCommerceSolution.OrdersService.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +67,11 @@ public class OrdersController : ControllerBase
 
     }
 
-
+    /// <summary>
+    /// returns the details of a specific order based on the provided order ID.
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpGet("search/{orderId}")]
     public async Task<IActionResult> GetOrderById(string orderId)
     {
@@ -79,7 +85,7 @@ public class OrdersController : ControllerBase
             }
             else
             {
-                return NotFound(new {Success = false, Message = $"Order with ID {orderId} not found." });
+                return NotFound(new { Success = false, Message = $"Order with ID {orderId} not found." });
             }
         }
         finally
@@ -88,5 +94,29 @@ public class OrdersController : ControllerBase
             _logger.LogInformation("[END] GetOrderById request processed in {ElapsedMilliseconds} ms", sw.ElapsedMilliseconds);
         }
     }
+
+
+    [HttpGet("search/get-all-orders")]
+    public async Task<IActionResult> GetAllOrders()
+    {
+        var sw = Stopwatch.StartNew();
+        try
+        {
+            var response = await _mediator.Send(new GetAllOrdersRequest());
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            else {
+                return NotFound(new { Success = false, Message = $"There are no orders available." });
+            }
+        }
+        finally
+        {
+            sw.Stop();
+            _logger.LogInformation("[END] GetAllOrders request processed in {ElapsedMilliseconds} ms", sw.ElapsedMilliseconds);
+        }
+    }
+
     #endregion
 }
