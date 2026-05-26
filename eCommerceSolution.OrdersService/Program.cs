@@ -1,4 +1,5 @@
 using eCommerceSolution.OrdersService.Data;
+using eCommerceSolution.OrdersService.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -36,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandlingMiddleware();
 
 app.UseAuthorization();
 

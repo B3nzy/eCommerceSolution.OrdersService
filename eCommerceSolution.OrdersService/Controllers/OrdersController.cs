@@ -79,7 +79,7 @@ public class OrdersController : ControllerBase
             }
             else
             {
-                return NotFound($"Order with ID {orderId} not found.");
+                return NotFound(new {Success = false, Message = $"Order with ID {orderId} not found." });
             }
         }
         finally

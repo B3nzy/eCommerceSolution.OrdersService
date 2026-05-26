@@ -15,13 +15,13 @@ public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdRequest, GetOrder
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<GetOrderByIdResponse> Handle(GetOrderByIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetOrderByIdResponse?> Handle(GetOrderByIdRequest request, CancellationToken cancellationToken)
     {
         Order? order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.OrderId == Guid.Parse(request.OrderId));
 
         if (order == null)
         {
-            throw new InvalidOperationException("Order not found");
+            return null;
         }
 
         return new GetOrderByIdResponse
