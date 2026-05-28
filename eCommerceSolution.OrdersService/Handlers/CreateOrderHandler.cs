@@ -10,12 +10,14 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderRequest, CreateOrde
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly UsersMicroserviceHttpClient _usersMicroserviceHttpClient;
+    private readonly ProductsMicroserviceHttpClient _productsMicroserviceHttpClient;
 
 
-    public CreateOrderHandler(ApplicationDbContext dbContext, UsersMicroserviceHttpClient usersMicroserviceHttpClient)
+    public CreateOrderHandler(ApplicationDbContext dbContext, UsersMicroserviceHttpClient usersMicroserviceHttpClient, ProductsMicroserviceHttpClient productsMicroserviceHttpClient)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _usersMicroserviceHttpClient = usersMicroserviceHttpClient ?? throw new ArgumentNullException(nameof(usersMicroserviceHttpClient));
+        _productsMicroserviceHttpClient = productsMicroserviceHttpClient ?? throw new ArgumentNullException(nameof(productsMicroserviceHttpClient));
     }
 
     public async Task<CreateOrderResponse> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -43,8 +45,21 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderRequest, CreateOrde
             return new CreateOrderResponse
             {
                 Success = false,
-                Message = "User not found."
+                Message = "User with ID {request.UserId} not found."
             };
+        }
+
+        foreach (var item in request.OrderItems)
+        {
+            bool productExists = await _productsMicroserviceHttpClient.ProductExistsAsync(item.ProductId);
+            if (!productExists)
+            {
+                return new CreateOrderResponse
+                {
+                    Success = false,
+                    Message = "Product with ID {item.ProductId} not found."
+                };
+            }
         }
 
         Order orderRequest = new Order

@@ -1,0 +1,10 @@
+﻿namespace eCommerceSolution.OrdersService.Models.DTOs.HttpClient.Formats.ProductsMicroservice;
+
+public class GetProductByIdResponse
+{
+    public Guid ProductId { get; set; }
+    public string? ProductName { get; set; }
+    public string? Category { get; set; }
+    public decimal Price { get; set; }
+    public int QuantityInStock { get; set; }
+}

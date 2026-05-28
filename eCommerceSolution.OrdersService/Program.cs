@@ -28,6 +28,13 @@ builder.Services.AddHttpClient<UsersMicroserviceHttpClient>(client =>
     client.BaseAddress = new Uri(userServiceUrl ?? throw new InvalidOperationException("User Service URL is missing."));
 });
 
+// Register the ProductsMicroserviceHttpClient with the base address from configuration
+string? productsServiceUrl = builder.Configuration["ServiceUrls:ProductsService"];
+builder.Services.AddHttpClient<ProductsMicroserviceHttpClient>(client =>
+{
+    client.BaseAddress = new Uri(productsServiceUrl ?? throw new InvalidOperationException("Products Service URL is missing."));
+});
+
 // 1. Grab connection settings from appsettings.json
 var mongoConnectionString = builder.Configuration.GetConnectionString("DockerMongoDbConnectionString")
     ?? "mongodb://localhost:27017";
