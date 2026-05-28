@@ -22,7 +22,7 @@ public class ProductsMicroserviceHttpClient
         return false;
     }
 
-    public async Task<GetProductByIdResponse> GetProductById(Guid productId)
+    public async Task<GetProductByIdResponse> GetProductByIdAsync(Guid productId)
     {
         HttpResponseMessage httpResponse = await _httpClient.GetAsync($"api/Products/search/product-id/{productId}");
         if (httpResponse.IsSuccessStatusCode)

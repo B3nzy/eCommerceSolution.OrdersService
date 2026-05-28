@@ -45,7 +45,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderRequest, CreateOrde
             return new CreateOrderResponse
             {
                 Success = false,
-                Message = "User with ID {request.UserId} not found."
+                Message = $"User with ID {request.UserId} not found."
             };
         }
 
@@ -57,7 +57,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderRequest, CreateOrde
                 return new CreateOrderResponse
                 {
                     Success = false,
-                    Message = "Product with ID {item.ProductId} not found."
+                    Message = $"Product with ID {item.ProductId} not found."
                 };
             }
         }
