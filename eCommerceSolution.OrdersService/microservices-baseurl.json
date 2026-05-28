@@ -1,0 +1,7 @@
+{
+  "ServiceUrls": {
+    "UserService": "http://localhost:5000/"
+    //"ProductsService": "http://localhost:5001/",
+    //"OrdersService": "http://localhost:5002/"
+  }
+}

@@ -1,9 +1,13 @@
 using eCommerceSolution.OrdersService.Data;
+using eCommerceSolution.OrdersService.HttpClients;
 using eCommerceSolution.OrdersService.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Configuration.AddJsonFile("microservices-baseurl.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
 
@@ -15,6 +19,13 @@ builder.Services.AddOpenApi();
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+});
+
+// Register the UsersMicroserviceHttpClient with the base address from configuration
+string? userServiceUrl = builder.Configuration["ServiceUrls:UserService"];
+builder.Services.AddHttpClient<UsersMicroserviceHttpClient>(client =>
+{
+    client.BaseAddress = new Uri(userServiceUrl ?? throw new InvalidOperationException("User Service URL is missing."));
 });
 
 // 1. Grab connection settings from appsettings.json
