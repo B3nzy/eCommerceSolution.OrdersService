@@ -3,7 +3,7 @@
   //"ServiceUrls": {
   //  "UserService": "http://localhost:5000/",
   //  "ProductsService": "http://localhost:5100/"
-  //},
+  //}
 
   // When running in Docker, use the service URLs that point to the respective containers
   "ServiceUrls": {

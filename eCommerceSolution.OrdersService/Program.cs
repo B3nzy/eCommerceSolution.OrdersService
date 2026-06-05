@@ -46,6 +46,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMongoDB(mongoConnectionString, databaseName));
 
 
+
+// Register Redis Distributed Cache
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "EComPlatform_"; // Optional: Prefixes your cache keys to avoid collision
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
