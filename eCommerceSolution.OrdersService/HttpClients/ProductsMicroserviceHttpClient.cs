@@ -45,7 +45,7 @@ public class ProductsMicroserviceHttpClient
                     DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions
                     {
                         AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5), // NO MATTER WHAT, delete this data 5 minutes after it was first created.
-                        SlidingExpiration = TimeSpan.FromSeconds(1) // If no one requests this data for 1 minute, delete it.
+                        SlidingExpiration = TimeSpan.FromMinutes(1) // If no one requests this data for 1 minute, delete it.
                     };
                     await _cache.SetStringAsync(cacheKey, serializedData, cacheOptions);
                     return response;
