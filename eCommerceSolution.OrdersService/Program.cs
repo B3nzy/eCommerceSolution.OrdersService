@@ -1,6 +1,7 @@
 using eCommerceSolution.OrdersService.Data;
 using eCommerceSolution.OrdersService.HttpClients;
 using eCommerceSolution.OrdersService.Middlewares;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -52,6 +53,25 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "EComPlatform_"; // Optional: Prefixes your cache keys to avoid collision
+});
+
+// Register MassTransit with RabbitMQ
+builder.Services.AddMassTransit(cfg =>
+{
+    cfg.SetKebabCaseEndpointNameFormatter();
+
+    cfg.UsingRabbitMq((context, cfg) =>
+    {
+        var host = builder.Configuration["MessageBroker:Host"];
+        var username = builder.Configuration["MessageBroker:Username"];
+        var password = builder.Configuration["MessageBroker:Password"];
+
+        cfg.Host(host, "/", h =>
+        {
+            h.Username(username);
+            h.Password(password);
+        });
+    });
 });
 
 var app = builder.Build();
